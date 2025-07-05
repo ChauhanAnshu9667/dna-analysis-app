@@ -1,0 +1,199 @@
+{
+  "snps": [
+    {
+      "gene": "HBB",
+      "position": 5227002,
+      "reference": "G",
+      "variant": "A",
+      "rsid": "rs334",
+      "trait": "Sickle Cell Trait",
+      "effect": "Causes sickle cell disease when inherited from both parents, provides malaria resistance when heterozygous",
+      "description": "This mutation in the HBB gene on chromosome 11 causes the amino acid glutamic acid to be replaced with valine at position 6 in beta-globin (Glu6Val). The reference DNA sequence spans positions 5227002-5227098. This causes red blood cells to become sickle-shaped under certain conditions, affecting oxygen transport. Homozygotes develop sickle cell disease, while heterozygotes have sickle cell trait and some protection against malaria.",
+      "reference_sequence": "ATGGTGCACCTGACTCCTGAGGAGAAGTCTGCCGTTACTGCCCTGTGGGGCAAGGTGAACGTGGATGAAGTTGGTGGTGAGGCCCTGGGCAG",
+      "chromosome": "11",
+      "position_start": 5227002,
+      "position_end": 5227098
+    },
+    {
+      "gene": "MCM6",
+      "position": 136608646,
+      "reference": "C",
+      "variant": "T",
+      "rsid": "rs4988235",
+      "trait": "Lactose Intolerance",
+      "effect": "T allele enables lactose digestion in adulthood, C allele associated with lactose intolerance",
+      "description": "This variant upstream of the LCT gene on chromosome 2 regulates lactase enzyme production. The reference DNA sequence spans positions 136608646-136608711. The T allele allows continued production of lactase in adulthood, enabling digestion of lactose (milk sugar), while the C allele is associated with lactose intolerance. This trait evolved in populations with dairy farming traditions.",
+      "reference_sequence": "AGTGAGTCCTGAGGAACAGAAAGCGGGCCTGCGTGCAGTGAATCTGACAGAGTTTGAGGCCCAGGTGAGTGCAGCTGCATGAGGGCCCTG",
+      "chromosome": "2",
+      "position_start": 136608646,
+      "position_end": 136608711
+    },
+    {
+      "gene": "VKORC1",
+      "position": 31107651,
+      "reference": "G",
+      "variant": "A",
+      "rsid": "rs9923231",
+      "trait": "Warfarin Sensitivity",
+      "effect": "A allele increases warfarin sensitivity requiring significantly lower doses, higher bleeding risk if standard doses used",
+      "description": "This variant in the VKORC1 gene promoter region on chromosome 16 affects warfarin metabolism and dosing requirements. The reference DNA sequence spans positions 31107651-31107718. The A allele is associated with increased warfarin sensitivity and lower dose requirements (approximately 3 mg/day for AA genotype vs 6 mg/day for GG genotype). Carriers of the A allele have higher risk of serious bleeding if given standard warfarin doses. This variant explains about 27-31% of warfarin dose variation.",
+      "reference_sequence": "AGGTCACCATGTTGACCAGAGGAGGAGCTTTGACTCGGAGGACAGAGGCCTGAAGGCCCTGAGGAAGGAGGTGGGAGCAGGCTTGTCT",
+      "chromosome": "16",
+      "position_start": 31107651,
+      "position_end": 31107718
+    },
+    {
+      "gene": "CYP1A2",
+      "position": 74748473,
+      "reference": "A",
+      "variant": "C",
+      "rsid": "rs762551",
+      "trait": "Caffeine Metabolism",
+      "effect": "A allele associated with faster caffeine metabolism and higher enzyme inducibility, C allele with slower metabolism",
+      "description": "This variant in the CYP1A2 gene on chromosome 15 affects caffeine metabolism speed. The reference DNA sequence spans positions 74748473-74748538. The A allele codes for the 'high inducibility' form of the enzyme with faster caffeine metabolism, especially in smokers and heavy coffee consumers. The C allele is associated with slower caffeine metabolism. Individuals with AA genotype typically metabolize caffeine faster and may consume more coffee, while those with CC genotype may be more sensitive to caffeine's effects and at higher risk for hypertension with heavy coffee intake.",
+      "reference_sequence": "CAGAGGACTGCTGCTGAGCTTTGACGCTGCTGGCTGCAGGAGGGAGCAGCAGCAGCTGAGCAGAGCAGGAGGCTGAGGCTGAGGCTGAGGA",
+      "chromosome": "15",
+      "position_start": 74748473,
+      "position_end": 74748538
+    },
+    {
+      "gene": "ALDH2",
+      "position": 112241765,
+      "reference": "G",
+      "variant": "A",
+      "rsid": "rs671",
+      "trait": "Alcohol Flush Reaction",
+      "effect": "A allele severely impairs alcohol metabolism causing facial flushing, nausea, and rapid heartbeat after alcohol consumption",
+      "description": "This mutation in the ALDH2 gene on chromosome 12 severely impairs the aldehyde dehydrogenase enzyme. The reference DNA sequence spans positions 112241765-112241830. The A allele leads to acetaldehyde accumulation when alcohol is consumed, causing the characteristic alcohol flush reaction (facial flushing, nausea, rapid heartbeat) common in East Asians. This variant provides protection against alcoholism due to unpleasant symptoms but may increase esophageal cancer risk if alcohol consumption continues despite symptoms.",
+      "reference_sequence": "GCTGCGTGGCGGGCGGCCGGCGCGTGGGGGCGCTGCAGGCGCTGTGGGACCTGGCGCTGCCGGTGCCGGAGCTGGGCGGAGGAGTTCCT",
+      "chromosome": "12",
+      "position_start": 112241765,
+      "position_end": 112241830
+    },
+    {
+      "gene": "HERC2",
+      "position": 28365618,
+      "reference": "A",
+      "variant": "G",
+      "rsid": "rs12913832",
+      "trait": "Eye Color (Blue)",
+      "effect": "G allele associated with blue eyes, A allele associated with brown eyes",
+      "description": "This SNP in the HERC2 gene on chromosome 15 regulates expression of the nearby OCA2 gene, which is crucial for melanin production in the iris. The reference DNA sequence spans positions 28365618-28365683. The G allele is associated with blue eyes by reducing OCA2 expression and melanin production, while the A allele is associated with brown eyes. This variant explains approximately 74% of eye color variation in Europeans, with GG individuals typically having blue eyes and AA individuals having brown eyes.",
+      "reference_sequence": "AGGGTGAGGGAGAGGAGAGAGGGAGGGGAAGGAGGGAAGGAGGAAGGGGAGGAGAGAGGAGGAAGGGAGGAGGGAGAGGAGGAAGAGGA",
+      "chromosome": "15",
+      "position_start": 28365618,
+      "position_end": 28365683
+    },
+    {
+      "gene": "FTO",
+      "position": 53786615,
+      "reference": "T",
+      "variant": "A",
+      "rsid": "rs9939609",
+      "trait": "Obesity Risk",
+      "effect": "A allele increases BMI and obesity risk, affects appetite regulation and food intake behavior",
+      "description": "This variant in the FTO gene on chromosome 16 is strongly associated with increased body mass index and obesity risk. The reference DNA sequence spans positions 53786615-53786680. Each copy of the A allele increases weight by approximately 1-3 kg in adults and is associated with increased appetite and food intake. The variant appears to affect appetite regulation, food preferences, and eating behavior. Individuals with AA genotype have the highest obesity risk, while those with TT genotype have the lowest risk.",
+      "reference_sequence": "GTGGAGGGAGGGAGGGAGGAAGGAAGGGGAGGAAGGAAGGGAGGAGGAGAGAGGGAGGAAGGAAGGAAGGAGGAAGGAAGGAAGGAAGGA",
+      "chromosome": "16",
+      "position_start": 53786615,
+      "position_end": 53786680
+    },
+
+    {
+      "gene": "APOE",
+      "position": 45411941,
+      "reference": "C",
+      "variant": "T",
+      "rsid": "rs429358",
+      "trait": "Alzheimer's Disease Risk",
+      "effect": "The T allele is associated with increased risk of late-onset Alzheimer's when present with rs7412 C allele (APOE ε4).",
+      "description": "The rs429358 variant, in combination with rs7412, defines the APOE ε2, ε3, and ε4 alleles. The ε4 allele significantly increases risk for Alzheimer's disease, especially in homozygotes.",
+      "reference_sequence": "CTGCAGGAGGAGATGGTGTCGCTGGGCGCGGACATGGAGGACGTGCGCGCTGTCCTCGTGCTGTC",
+      "chromosome": "19",
+      "position_start": 45411920,
+      "position_end": 45411985
+    },
+    {
+      "gene": "MC1R",
+      "position": 89919706,
+      "reference": "C",
+      "variant": "T",
+      "rsid": "rs1805007",
+      "trait": "Red Hair",
+      "effect": "T allele leads to red hair phenotype, fair skin, and increased sensitivity to UV radiation.",
+      "description": "This mutation in the MC1R gene is strongly associated with red hair and freckling. It affects melanin production and results in a pheomelanin-dominant pigmentation.",
+      "reference_sequence": "GGTGACCGCAGGAGCGCTTCCGAGGCCCGCCGCTTCAGGCGGCTGCTGGCTGAGGAGCGTGGAGT",
+      "chromosome": "16",
+      "position_start": 89919690,
+      "position_end": 89919755
+    },
+    {
+      "gene": "ADH1B",
+      "position": 100239319,
+      "reference": "A",
+      "variant": "G",
+      "rsid": "rs1229984",
+      "trait": "Alcohol Sensitivity",
+      "effect": "G allele leads to increased alcohol metabolism, causing faster conversion of ethanol to acetaldehyde and flushing reaction.",
+      "description": "This SNP affects the ADH1B enzyme involved in ethanol breakdown. The G allele is common in East Asians and contributes to facial flushing and reduced risk of alcoholism.",
+      "reference_sequence": "GCGCGCTGGCCGAGGACGGAGAGGGCGGCTGGCAGCTGGAGGAGATGATGCCCGGCTGAGTGGCG",
+      "chromosome": "4",
+      "position_start": 100239295,
+      "position_end": 100239360
+    },
+    {
+      "gene": "BDNF",
+      "position": 27679916,
+      "reference": "G",
+      "variant": "A",
+      "rsid": "rs6265",
+      "trait": "Memory & Learning",
+      "effect": "A allele (Val66Met) may be associated with reduced BDNF secretion and memory performance.",
+      "description": "This variant affects brain-derived neurotrophic factor (BDNF), impacting learning, memory, and neuroplasticity. The Met allele is associated with slight cognitive and anxiety differences in some studies.",
+      "reference_sequence": "CTGAGGTCTGGAGCAGGAGGCGTGGAGTGGGCGGAGGCGCTGGAGGCGATGGAGCGTGAGCGGGC",
+      "chromosome": "11",
+      "position_start": 27679890,
+      "position_end": 27679955
+    },
+    {
+      "gene": "TAS2R38",
+      "position": 141673207,
+      "reference": "C",
+      "variant": "T",
+      "rsid": "rs713598",
+      "trait": "Bitter Taste Sensitivity",
+      "effect": "T allele is associated with lower sensitivity to bitter compounds like PTC and PROP.",
+      "description": "Variants in the TAS2R38 gene influence bitter taste perception. Individuals with CC genotype are 'tasters', while TT genotype are typically 'non-tasters'.",
+      "reference_sequence": "GGAGTCCAGGTGGAGCAGTGCAGTGAGGCGCAGCAGAGGCCGGCCAGGGCAGGGCAGGCAGGAC",
+      "chromosome": "7",
+      "position_start": 141673180,
+      "position_end": 141673245
+    }
+    
+  ],
+  "metadata": {
+    "version": "2.0",
+    "created": "2025-06-06",
+    "description": "Curated SNP database based on provided reference sequences with detailed genomic positions, alleles, and clinical effects",
+    "genome_build": "GRCh38",
+    "total_snps": 7,
+    "data_sources": [
+      "User-provided reference sequences",
+      "NCBI ClinVar",
+      "SNPedia", 
+      "PubMed Literature",
+      "GWAS Catalog"
+    ],
+    "sequence_info": {
+      "reference_sequences_included": true,
+      "sequence_length": "65-97 base pairs per variant",
+      "genomic_coordinates": "Based on provided position ranges"
+    },
+    "clinical_significance": {
+      "pharmacogenomics": ["rs9923231 (warfarin)", "rs762551 (caffeine)", "rs671 (alcohol)"],
+      "disease_risk": ["rs334 (sickle cell)", "rs9939609 (obesity)"],
+      "physiological_traits": ["rs4988235 (lactose tolerance)", "rs12913832 (eye color)"]
+    },
+    "notes": "All genomic positions and reference sequences are based on user-provided data. Clinical descriptions incorporate current research literature on variant effects and population frequencies."
+  }
+}
