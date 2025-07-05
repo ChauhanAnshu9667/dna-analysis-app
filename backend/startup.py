@@ -53,7 +53,8 @@ def check_dependencies():
     
     try:
         import motor
-        logger.info(f"Motor version: {motor.__version__}")
+        # Motor doesn't have __version__ attribute, so just log success
+        logger.info("Motor imported successfully")
     except ImportError as e:
         logger.error(f"Motor import failed: {e}")
         return False
