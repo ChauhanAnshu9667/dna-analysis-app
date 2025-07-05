@@ -47,8 +47,10 @@ except Exception as e:
     logger.error(f"Error creating FastAPI app: {e}")
     raise
 
-# Get allowed origins from environment variable
-ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
+# Get allowed origins from environment variable and clean them up
+raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")
+# Clean up the origins - remove semicolons and extra whitespace
+ALLOWED_ORIGINS = [origin.strip().rstrip(';') for origin in raw_origins.split(",") if origin.strip()]
 logger.info(f"Allowed origins: {ALLOWED_ORIGINS}")
 
 # Configure CORS
@@ -207,11 +209,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error"
         )
-
-@app.get("/health")
-async def health_check():
-    """Simple health check endpoint"""
-    return {"status": "healthy", "message": "Backend is running"}
 
 @app.post("/test-login")
 async def test_login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -889,6 +886,20 @@ async def delete_all_analysis_history(current_user: dict = Depends(get_current_u
     except Exception as e:
         logger.error(f"Error deleting all analysis history: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/test")
+async def test_endpoint():
+    """Simple test endpoint to verify JSON responses work"""
+    return JSONResponse(content={
+        "message": "Backend is working!",
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "success"
+    })
+
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint"""
+    return {"status": "healthy", "message": "Backend is running"}
 
 if __name__ == "__main__":
     import uvicorn
