@@ -1,4 +1,6 @@
 import os
+import sys
+import logging
 from fastapi import FastAPI, UploadFile, Form, HTTPException, Depends, status, File, Body, Request, Path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -8,7 +10,6 @@ from io import StringIO, BytesIO
 import re
 from alignment import needleman_wunsch
 from mutation_analysis import MutationAnalyzer
-import logging
 from datetime import datetime, timedelta
 from database import get_user_by_email, create_user, get_user_by_username, update_user_profile, save_analysis_history, get_user_analysis_history, get_user_by_id, db
 from auth import (
@@ -27,28 +28,52 @@ import json
 from jose import JWTError, jwt
 from bson import ObjectId
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging with more detail
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+# Log startup information
+logger.info("Starting DNA Analysis App...")
+logger.info(f"Python version: {sys.version}")
+logger.info(f"Working directory: {os.getcwd()}")
+
+try:
+    app = FastAPI(title="DNA Analysis API", version="1.0.0")
+    logger.info("FastAPI app created successfully")
+except Exception as e:
+    logger.error(f"Error creating FastAPI app: {e}")
+    raise
 
 # Get allowed origins from environment variable
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173").split(",")
+logger.info(f"Allowed origins: {ALLOWED_ORIGINS}")
 
 # Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+try:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    logger.info("CORS middleware added successfully")
+except Exception as e:
+    logger.error(f"Error adding CORS middleware: {e}")
+    raise
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Initialize mutation analyzer
-mutation_analyzer = MutationAnalyzer()
+try:
+    mutation_analyzer = MutationAnalyzer()
+    logger.info("Mutation analyzer initialized successfully")
+except Exception as e:
+    logger.error(f"Error initializing mutation analyzer: {e}")
+    raise
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     """Get current user from token"""
