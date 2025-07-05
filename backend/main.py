@@ -161,6 +161,36 @@ async def get_user_from_token(token: str):
     user = await get_user_by_email(email)
     return user
 
+@app.get("/")
+async def root():
+    """Root endpoint - API information"""
+    return JSONResponse(content={
+        "message": "DNA Analysis API",
+        "version": "1.0.0",
+        "status": "running",
+        "endpoints": {
+            "health": "/health",
+            "test": "/test",
+            "available_traits": "/available-traits",
+            "reference_traits": "/reference-traits",
+            "login": "/token",
+            "register": "/register",
+            "analyze": "/analyze",
+            "profile": "/profile",
+            "analysis_history": "/analysis-history"
+        },
+        "docs": "/docs"
+    })
+
+@app.get("/test")
+async def test_endpoint():
+    """Simple test endpoint to verify JSON responses work"""
+    return JSONResponse(content={
+        "message": "Backend is working!",
+        "timestamp": datetime.utcnow().isoformat(),
+        "status": "success"
+    })
+
 @app.get("/available-traits")
 async def get_available_traits():
     """Return the list of available traits from the SNPs database."""
@@ -944,15 +974,6 @@ async def delete_all_analysis_history(current_user: dict = Depends(get_current_u
     except Exception as e:
         logger.error(f"Error deleting all analysis history: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/test")
-async def test_endpoint():
-    """Simple test endpoint to verify JSON responses work"""
-    return JSONResponse(content={
-        "message": "Backend is working!",
-        "timestamp": datetime.utcnow().isoformat(),
-        "status": "success"
-    })
 
 @app.get("/health")
 async def health_check():
