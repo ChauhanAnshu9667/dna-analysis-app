@@ -31,7 +31,11 @@ from bson import ObjectId
 # Configure logging with more detail
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('app.log') if os.path.exists('/app') else logging.NullHandler()
+    ]
 )
 logger = logging.getLogger(__name__)
 
@@ -39,6 +43,10 @@ logger = logging.getLogger(__name__)
 logger.info("Starting DNA Analysis App...")
 logger.info(f"Python version: {sys.version}")
 logger.info(f"Working directory: {os.getcwd()}")
+logger.info(f"Environment variables:")
+logger.info(f"  MONGODB_URL: {'Set' if os.getenv('MONGODB_URL') else 'Not set'}")
+logger.info(f"  SECRET_KEY: {'Set' if os.getenv('SECRET_KEY') else 'Not set'}")
+logger.info(f"  ALLOWED_ORIGINS: {os.getenv('ALLOWED_ORIGINS', 'Not set')}")
 
 try:
     app = FastAPI(title="DNA Analysis API", version="1.0.0")
@@ -66,6 +74,56 @@ try:
 except Exception as e:
     logger.error(f"Error adding CORS middleware: {e}")
     raise
+
+# Add this after the CORS middleware configuration
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log all requests and responses for debugging"""
+    start_time = datetime.utcnow()
+    
+    # Log request
+    logger.info(f"Request: {request.method} {request.url}")
+    logger.info(f"Headers: {dict(request.headers)}")
+    
+    try:
+        response = await call_next(request)
+        
+        # Log response
+        process_time = (datetime.utcnow() - start_time).total_seconds()
+        logger.info(f"Response: {response.status_code} - {process_time:.3f}s")
+        logger.info(f"Response headers: {dict(response.headers)}")
+        
+        # Log response body for debugging (be careful with large responses)
+        if response.status_code < 400:  # Only log successful responses
+            try:
+                body = b""
+                async for chunk in response.body_iterator:
+                    body += chunk
+                
+                # Reconstruct response
+                response = Response(
+                    content=body,
+                    status_code=response.status_code,
+                    headers=dict(response.headers),
+                    media_type=response.media_type
+                )
+                
+                # Log response content (truncated)
+                content_str = body.decode('utf-8', errors='ignore')
+                if len(content_str) > 500:
+                    logger.info(f"Response body (truncated): {content_str[:500]}...")
+                else:
+                    logger.info(f"Response body: {content_str}")
+                    
+            except Exception as e:
+                logger.warning(f"Could not log response body: {e}")
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Request failed: {e}")
+        raise
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
