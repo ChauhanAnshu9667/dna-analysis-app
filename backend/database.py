@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
 from bson import ObjectId
+from urllib.parse import quote_plus
 
 load_dotenv()
 
@@ -16,13 +17,36 @@ except ImportError as e:
     MOTOR_AVAILABLE = False
     AsyncIOMotorClient = None
 
+# Get MongoDB URL and properly encode username/password
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+
+# If it's a MongoDB Atlas URL with username/password, encode them properly
+if "@" in MONGODB_URL and "mongodb+srv://" in MONGODB_URL:
+    try:
+        # Parse the URL to extract and encode username/password
+        from urllib.parse import urlparse, parse_qs
+        
+        parsed = urlparse(MONGODB_URL)
+        if parsed.username and parsed.password:
+            # Reconstruct URL with encoded credentials
+            encoded_username = quote_plus(parsed.username)
+            encoded_password = quote_plus(parsed.password)
+            
+            # Rebuild the URL with encoded credentials
+            MONGODB_URL = MONGODB_URL.replace(
+                f"{parsed.username}:{parsed.password}@",
+                f"{encoded_username}:{encoded_password}@"
+            )
+            print(f"MongoDB URL encoded successfully")
+    except Exception as e:
+        print(f"Warning: Could not encode MongoDB URL: {e}")
 
 # Initialize client only if Motor is available
 if MOTOR_AVAILABLE:
     try:
         client = AsyncIOMotorClient(MONGODB_URL)
         db = client.dna_analysis_db
+        print(f"MongoDB connection established successfully")
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
         client = None
