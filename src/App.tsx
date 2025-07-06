@@ -4,6 +4,7 @@ import DnaAnalysis from './components/DnaAnalysis';
 import Auth from './components/Auth';
 import Profile from './components/Profile';
 import AboutPage from './components/AboutPage';
+import IconTest from './components/IconTest';
 import { GeneScopeLogo } from './components/WorkflowIcons';
 import './App.css';
 
@@ -154,7 +155,15 @@ const HomePage = () => {
             {workflowSteps.map((step, index) => (
               <div key={index} className="workflow-step-container">
                 <div className="workflow-step">
-                  <img src={step.icon} alt={step.title} className="step-icon" />
+                  <img 
+                    src={step.icon} 
+                    alt={step.title} 
+                    className="step-icon" 
+                    onError={(e) => {
+                      console.error(`Failed to load icon: ${step.icon}`);
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
                   <h3 className="step-title">{step.title}</h3>
                   <p className="step-description">{step.description}</p>
                 </div>
@@ -183,6 +192,11 @@ const HomePage = () => {
             <span className="author">- Dr. Sarah Johnson</span>
           </div>
         </div>
+      </section>
+
+      <section className="demo">
+        <h2>Debug Info</h2>
+        <IconTest />
       </section>
     </>
   );

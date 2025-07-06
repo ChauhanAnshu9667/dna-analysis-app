@@ -21,7 +21,7 @@ const AboutPage = () => (
       <section>
         <h2 className="text-2xl font-bold text-purple-700 mb-4">About the Developer</h2>
         <div className="flex items-center mb-4">
-          <img src="src\assets\dev2.jpg" alt="Developer" className="w-20 h-20 rounded-full mr-6 border-4 border-blue-200" />
+          <img src="/dev2.jpg" alt="Developer" className="w-20 h-20 rounded-full mr-6 border-4 border-blue-200" />
           <div>
             <h3 className="text-xl font-semibold text-gray-800">Anshu Chauhan</h3>
             <p className="text-gray-600">Full Stack Developer & Bioinformatics Enthusiast</p>
