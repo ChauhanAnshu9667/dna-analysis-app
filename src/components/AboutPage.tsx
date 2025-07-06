@@ -1,5 +1,7 @@
 
 
+import PhotoTest from './PhotoTest';
+
 const AboutPage = () => (
   <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
     <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-10">
@@ -21,7 +23,18 @@ const AboutPage = () => (
       <section>
         <h2 className="text-2xl font-bold text-purple-700 mb-4">About the Developer</h2>
         <div className="flex items-center mb-4">
-          <img src="/dev2.jpg" alt="Developer" className="w-20 h-20 rounded-full mr-6 border-4 border-blue-200" />
+          <img 
+            src="/dev2.jpg" 
+            alt="Developer" 
+            className="w-20 h-20 rounded-full mr-6 border-4 border-blue-200" 
+            onError={(e) => {
+              console.error('Failed to load developer photo: /dev2.jpg');
+              e.currentTarget.style.display = 'none';
+            }}
+            onLoad={() => {
+              console.log('Developer photo loaded successfully');
+            }}
+          />
           <div>
             <h3 className="text-xl font-semibold text-gray-800">Anshu Chauhan</h3>
             <p className="text-gray-600">Full Stack Developer & Bioinformatics Enthusiast</p>
@@ -33,6 +46,11 @@ const AboutPage = () => (
         <p className="text-gray-700">
           If you have feedback, ideas, or want to collaborate, feel free to reach out via <a href="mailto:anshu.work9667@gmail.com" className="text-blue-600 underline">email</a> or connect on <a href="https://github.com/ChauhanAnshu9667" className="text-blue-600 underline">GitHub</a>.
         </p>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="text-2xl font-bold text-purple-700 mb-4">Debug Info</h2>
+        <PhotoTest />
       </section>
     </div>
   </div>
