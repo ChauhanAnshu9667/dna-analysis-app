@@ -4,7 +4,7 @@ import DnaAnalysis from './components/DnaAnalysis';
 import Auth from './components/Auth';
 import Profile from './components/Profile';
 import AboutPage from './components/AboutPage';
-import { UploadIcon, MatchIcon, AnalyzeIcon, PredictIcon, SaveIcon, GeneScopeLogo } from './components/WorkflowIcons';
+import { GeneScopeLogo } from './components/WorkflowIcons';
 import './App.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -88,37 +88,31 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-interface WorkflowStep {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-}
-
 const HomePage = () => {
   const navigate = useNavigate();
-  const workflowSteps: WorkflowStep[] = [
+  const workflowSteps = [
     {
-      icon: UploadIcon,
+      icon: '/workflow-icons/upload.svg',
       title: 'Upload DNA',
       description: 'Upload your DNA sequence file or paste your sequence data directly into our secure platform.'
     },
     {
-      icon: MatchIcon,
+      icon: '/workflow-icons/match.svg',
       title: 'Match',
       description: 'Our advanced algorithms compare your DNA sequence with our comprehensive database.'
     },
     {
-      icon: AnalyzeIcon,
+      icon: '/workflow-icons/analyze.svg',
       title: 'Analyze',
       description: 'Deep analysis of genetic markers, mutations, and potential health implications.'
     },
     {
-      icon: PredictIcon,
+      icon: '/workflow-icons/predict.svg',
       title: 'Predict',
       description: 'Get insights about traits, health predispositions, and ancestry information.'
     },
     {
-      icon: SaveIcon,
+      icon: '/workflow-icons/save.svg',
       title: 'Save Report',
       description: 'Download comprehensive reports and share with healthcare professionals.'
     }
@@ -157,19 +151,16 @@ const HomePage = () => {
         <h2>How It Works</h2>
         <div className="workflow-container">
           <div className="workflow-steps">
-            {workflowSteps.map((step, index) => {
-              const IconComponent = step.icon;
-              return (
-                <div key={index} className="workflow-step-container">
-                  <div className="workflow-step">
-                    <IconComponent className="step-icon" />
-                    <h3 className="step-title">{step.title}</h3>
-                    <p className="step-description">{step.description}</p>
-                  </div>
-                  {index < workflowSteps.length - 1 && <WorkflowArrow />}
+            {workflowSteps.map((step, index) => (
+              <div key={index} className="workflow-step-container">
+                <div className="workflow-step">
+                  <img src={step.icon} alt={step.title} className="step-icon" />
+                  <h3 className="step-title">{step.title}</h3>
+                  <p className="step-description">{step.description}</p>
                 </div>
-              );
-            })}
+                {index < workflowSteps.length - 1 && <WorkflowArrow />}
+              </div>
+            ))}
           </div>
         </div>
       </section>
