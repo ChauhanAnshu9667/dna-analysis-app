@@ -166,11 +166,17 @@ class MutationAnalyzer:
                         if match_pct > best_match:
                             best_match = match_pct
                             best_start = i
-                    warning = f"Reference region for this trait was not detected in your sequence. Highest match percentage found: {best_match:.1f}%. Please ensure your data covers the gene region."
+                    
+                    # Create alignment statistics for the best match found
+                    best_window = sequence[best_start:best_start+window_len]
+                    aligned_query, aligned_ref, align_stats = self._align_sequence(best_window, ref_seq)
+                    alignment_stats[snp_entry["gene"]] = align_stats
+                    
+                    warning = f"Reference region for this trait was not detected in your sequence. Best match percentage found: {best_match:.1f}%. This may indicate your sequence is from a different region or contains significant variations."
                     logger.warning(warning)
                     return {
                         "matches": [],
-                        "alignment_statistics": {},
+                        "alignment_statistics": alignment_stats,
                         "warning": warning
                     }
                 # Extract window ±100 bases around the match
@@ -184,14 +190,14 @@ class MutationAnalyzer:
                 alignment_stats[snp_entry["gene"]] = align_stats
 
                 match_percentage = align_stats.get('match_percentage', 0)
+                # Always return alignment statistics, even if match percentage is low
+                # This allows the frontend to show meaningful match percentages
                 if match_percentage < 80:
-                    warning = f"Input sequence does not match the reference region for this trait. Match percentage: {match_percentage:.1f}%. No mutation analysis performed."
+                    warning = f"Input sequence has low similarity to the reference region for this trait. Match percentage: {match_percentage:.1f}%. This may indicate the sequence is from a different region or contains significant variations."
                     logger.warning(warning)
-                    return {
-                        "matches": [],
-                        "alignment_statistics": alignment_stats,
-                        "warning": warning
-                    }
+                
+                # Continue with mutation analysis even if match percentage is low
+                # This allows us to show the match percentage and any mutations that might be found
 
                 mutations = self._find_mutations(aligned_query, aligned_ref, snp_entry, window_start=start)
                 logger.info(f"Found {len(mutations)} mutations for gene {snp_entry['gene']}")

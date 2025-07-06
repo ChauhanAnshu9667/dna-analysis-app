@@ -285,12 +285,16 @@ const DnaAnalysis = () => {
       return (
         <div className="mt-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
           <p className="text-yellow-800">
-            No mutations were found in the analyzed sequence. This could mean either:
+            No specific mutations were found in the analyzed sequence. This could mean:
             <ul className="list-disc ml-6 mt-2">
-              <li>The sequence matches the reference exactly</li>
-              <li>The sequence might be too short</li>
+              <li>Your sequence matches the reference sequence for this trait</li>
+              <li>Your sequence contains variations that don't match known mutations for this trait</li>
               <li>The sequence might be from a different region than what we analyze</li>
+              <li>The sequence might be too short for comprehensive analysis</li>
             </ul>
+            <p className="mt-3 text-sm">
+              Even without specific mutations, the match percentage above shows how similar your sequence is to the reference.
+            </p>
           </p>
         </div>
       );
@@ -494,15 +498,13 @@ const DnaAnalysis = () => {
       return 'has some variations from';
     };
 
-    // Calculate match percentage from alignment data if available, otherwise from mutations
+    // Calculate match percentage from alignment data if available
     const matchPercentage = result?.alignment 
       ? result.alignment.match_percentage.toFixed(1)
-      : result?.mutations 
-        ? (result.mutations.length === 0 ? 0 : 100).toFixed(1)
-        : null;
+      : null;
 
-    // Check if we have valid data to show (either alignment or mutations)
-    const hasValidData = (result?.alignment !== undefined) || (result?.mutations && result.mutations.length > 0);
+    // Check if we have valid data to show (alignment data is always valid if present)
+    const hasValidData = result?.alignment !== undefined;
 
     return (
       <div className="mt-12 bg-blue-50 rounded-xl p-6">
@@ -518,7 +520,7 @@ const DnaAnalysis = () => {
                 <div className="space-y-2">
                   <p className="text-sm text-gray-600">
                     {result?.alignment 
-                      ? `Your DNA sequence ${getMatchQuality(parseFloat(matchPercentage || '0'))} the reference sequence.`
+                      ? `Your DNA sequence ${getMatchQuality(parseFloat(matchPercentage || '0'))} the reference sequence for this trait.`
                       : `Your DNA sequence ${getMatchQuality(parseFloat(matchPercentage || '0'))} the reference gene —
                         ${parseFloat(matchPercentage || '0') >= 90 
                           ? ' typical in most healthy individuals.'
@@ -771,13 +773,55 @@ const DnaAnalysis = () => {
                     <MutationResults mutations={result.mutations} />
                   )}
 
+                  {/* Match Percentage Summary */}
+                  {result && result.alignment && (
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white">
+                      <h3 className="text-2xl font-bold mb-2">Sequence Match Analysis</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center">
+                          <div className="text-4xl font-bold">{result.alignment.match_percentage.toFixed(1)}%</div>
+                          <div className="text-blue-100 text-sm">Match Percentage</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-4xl font-bold">{result.alignment.mutations}</div>
+                          <div className="text-blue-100 text-sm">Mutations Found</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-4xl font-bold">{result.alignment.gaps}</div>
+                          <div className="text-blue-100 text-sm">Gaps</div>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <div className="w-full bg-blue-200 rounded-full h-3">
+                          <div 
+                            className={`h-3 rounded-full transition-all duration-500 ${
+                              result.alignment.match_percentage >= 90 
+                                ? 'bg-green-400' 
+                                : result.alignment.match_percentage >= 70 
+                                ? 'bg-yellow-400' 
+                                : 'bg-red-400'
+                            }`}
+                            style={{ width: `${result.alignment.match_percentage}%` }}
+                          ></div>
+                        </div>
+                        <div className="mt-2 text-sm text-blue-100">
+                          {result.alignment.match_percentage >= 90 
+                            ? 'Excellent match - sequence closely matches reference'
+                            : result.alignment.match_percentage >= 70 
+                            ? 'Good match - some variations present'
+                            : 'Low match - significant variations detected'}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* No Results Message */}
                   {result && (!result.mutations || result.mutations.length === 0) && (
                     <div className="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg">
                       <p className="text-blue-800">
-                        Analysis completed successfully! No mutations were found in your sequence.
-                        This could mean your sequence matches the reference exactly, or the sequence
-                        might be from a different region than what we analyze.
+                        Analysis completed successfully! No specific mutations were found in your sequence.
+                        This could mean your sequence matches the reference exactly, or contains variations 
+                        that don't match known mutations for this trait.
                       </p>
                     </div>
                   )}
