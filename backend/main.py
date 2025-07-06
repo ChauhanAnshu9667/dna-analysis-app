@@ -227,36 +227,59 @@ async def get_available_traits():
 # Authentication endpoints
 @app.post("/register", response_model=Token)
 async def register_user(user_data: UserCreate):
-    # Check if user already exists
-    if await get_user_by_email(user_data.email):
-        raise HTTPException(
-            status_code=400,
-            detail="Email already registered"
+    try:
+        logger.info(f"Registration attempt for email: {user_data.email}")
+        
+        # Check if user already exists
+        if await get_user_by_email(user_data.email):
+            logger.warning(f"Email already registered: {user_data.email}")
+            raise HTTPException(
+                status_code=400,
+                detail="Email already registered"
+            )
+        if await get_user_by_username(user_data.username):
+            logger.warning(f"Username already taken: {user_data.username}")
+            raise HTTPException(
+                status_code=400,
+                detail="Username already taken"
+            )
+        
+        # Create new user
+        hashed_password = get_password_hash(user_data.password)
+        user_dict = {
+            "username": user_data.username,
+            "email": user_data.email,
+            "hashed_password": hashed_password,
+            "created_at": datetime.utcnow()
+        }
+        
+        result = await create_user(user_dict)
+        if not result:
+            logger.error("Failed to create user in database")
+            raise HTTPException(
+                status_code=500,
+                detail="Failed to create user"
+            )
+        
+        # Create access token
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user_data.email},
+            expires_delta=access_token_expires
         )
-    if await get_user_by_username(user_data.username):
+        
+        response_data = {"access_token": access_token, "token_type": "bearer"}
+        logger.info(f"Registration successful for email: {user_data.email}")
+        return JSONResponse(content=response_data)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in registration: {str(e)}")
         raise HTTPException(
-            status_code=400,
-            detail="Username already taken"
+            status_code=500,
+            detail="Internal server error"
         )
-    
-    # Create new user
-    hashed_password = get_password_hash(user_data.password)
-    user_dict = {
-        "username": user_data.username,
-        "email": user_data.email,
-        "hashed_password": hashed_password,
-        "created_at": datetime.utcnow()
-    }
-    
-    await create_user(user_dict)
-    
-    # Create access token
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user_data.email},
-        expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
 
 @app.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
