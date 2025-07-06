@@ -3,6 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+// Debug logging
+console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('API_BASE_URL:', API_BASE_URL);
+
 interface AuthProps {
   setIsLoggedIn: (value: boolean) => void;
   onLoginSuccess?: () => void;
@@ -45,7 +49,9 @@ const Auth = ({ setIsLoggedIn, onLoginSuccess }: AuthProps) => {
         formDataToSend.append('password', formData.password);
       } else {
         // For registration, send JSON data
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        const fullUrl = `${API_BASE_URL}${endpoint}`;
+        console.log('Registration URL:', fullUrl);
+        const response = await fetch(fullUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -54,11 +60,35 @@ const Auth = ({ setIsLoggedIn, onLoginSuccess }: AuthProps) => {
         });
         
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || 'Registration failed');
+          let errorMessage = 'Registration failed';
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.detail || errorMessage;
+          } catch (jsonError) {
+            // If JSON parsing fails, try to get text response
+            try {
+              const errorText = await response.text();
+              errorMessage = errorText || errorMessage;
+            } catch (textError) {
+              errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+            }
+          }
+          throw new Error(errorMessage);
         }
         
-        const data = await response.json();
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          console.error('JSON parse error:', jsonError);
+          console.error('Response text:', await response.text());
+          throw new Error('Invalid response from server');
+        }
+        
+        if (!data.access_token) {
+          throw new Error('No access token received');
+        }
+        
         localStorage.setItem('token', data.access_token);
         setIsLoggedIn(true);
         onLoginSuccess?.();
@@ -73,11 +103,30 @@ const Auth = ({ setIsLoggedIn, onLoginSuccess }: AuthProps) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Authentication failed');
+        let errorMessage = 'Authentication failed';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorMessage;
+        } catch (jsonError) {
+          // If JSON parsing fails, try to get text response
+          try {
+            const errorText = await response.text();
+            errorMessage = errorText || errorMessage;
+          } catch (textError) {
+            errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('JSON parse error:', jsonError);
+        console.error('Response text:', await response.text());
+        throw new Error('Invalid response from server');
+      }
       localStorage.setItem('token', data.access_token);
       setIsLoggedIn(true);
       onLoginSuccess?.();
