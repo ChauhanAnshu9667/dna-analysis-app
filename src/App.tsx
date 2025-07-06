@@ -4,7 +4,7 @@ import DnaAnalysis from './components/DnaAnalysis';
 import Auth from './components/Auth';
 import Profile from './components/Profile';
 import AboutPage from './components/AboutPage';
-import { UploadIcon, MatchIcon, AnalyzeIcon, PredictIcon, SaveIcon } from './components/WorkflowIcons';
+import { UploadIcon, MatchIcon, AnalyzeIcon, PredictIcon, SaveIcon, GeneScopeLogo } from './components/WorkflowIcons';
 import './App.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -255,7 +255,7 @@ function App() {
       <div className="app">
         <nav className="navbar">
           <div className="nav-brand">
-            <img src="/dna-logo.svg" alt="GeneScope Logo" className="nav-logo" />
+            <GeneScopeLogo className="nav-logo" />
             <span className="brand-name">GeneScope</span>
           </div>
           {/* Desktop Nav Links */}
@@ -342,7 +342,7 @@ function App() {
           <div className="footer-content">
             <div className="footer-links">
               <Link to="/about">About</Link>
-              <a href="https://github.com/your-repo">GitHub Repo</a>
+              <a href="https://github.com/ChauhanAnshu9667/dna-analysis-app.git">Github repo</a>
               <Link to="/contact">Contact</Link>
               <Link to="/privacy">Privacy Policy</Link>
             </div>

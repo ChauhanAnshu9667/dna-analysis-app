@@ -31,7 +31,7 @@ const AboutPage = () => (
           Hi! I'm <b>Anshu</b>, the creator of GeneScope. I am passionate about making complex science accessible and empowering people to explore their own genetic data. I built this app using modern web technologies (React, FastAPI, MongoDB, and BioPython) to provide a seamless and secure experience for users of all backgrounds.
         </p>
         <p className="text-gray-700">
-          If you have feedback, ideas, or want to collaborate, feel free to reach out via <a href="mailto:your.email@example.com" className="text-blue-600 underline">email</a> or connect on <a href="https://github.com/your-github" className="text-blue-600 underline">GitHub</a>.
+          If you have feedback, ideas, or want to collaborate, feel free to reach out via <a href="mailto:anshu.work9667@gmail.com" className="text-blue-600 underline">email</a> or connect on <a href="https://github.com/ChauhanAnshu9667" className="text-blue-600 underline">GitHub</a>.
         </p>
       </section>
     </div>
