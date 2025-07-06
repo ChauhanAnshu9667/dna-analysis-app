@@ -75,7 +75,7 @@ class AnalysisHistory(BaseModel):
     analysis_summary: Dict[str, Any]
 
 async def get_user_by_email(email: str):
-    if not db:
+    if db is None:
         return None
     try:
         return await db.users.find_one({"email": email})
@@ -84,7 +84,7 @@ async def get_user_by_email(email: str):
         return None
 
 async def get_user_by_username(username: str):
-    if not db:
+    if db is None:
         return None
     try:
         return await db.users.find_one({"username": username})
@@ -93,7 +93,7 @@ async def get_user_by_username(username: str):
         return None
 
 async def create_user(user_data: dict):
-    if not db:
+    if db is None:
         return None
     try:
         return await db.users.insert_one(user_data)
@@ -103,7 +103,7 @@ async def create_user(user_data: dict):
 
 async def update_user_profile(user_id: str, updates: dict):
     """Update user profile information"""
-    if not db:
+    if db is None:
         return None
     try:
         return await db.users.update_one(
@@ -116,7 +116,7 @@ async def update_user_profile(user_id: str, updates: dict):
 
 async def save_analysis_history(analysis_data: dict):
     """Save analysis history for a user"""
-    if not db:
+    if db is None:
         return None
     try:
         return await db.analysis_history.insert_one(analysis_data)
@@ -126,7 +126,7 @@ async def save_analysis_history(analysis_data: dict):
 
 async def get_user_analysis_history(user_id: str, limit: int = 50):
     """Get analysis history for a user"""
-    if not db:
+    if db is None:
         return []
     try:
         cursor = db.analysis_history.find(
@@ -139,7 +139,7 @@ async def get_user_analysis_history(user_id: str, limit: int = 50):
 
 async def get_user_by_id(user_id: str):
     """Get user by ID"""
-    if not db:
+    if db is None:
         return None
     try:
         return await db.users.find_one({"_id": ObjectId(user_id)})
